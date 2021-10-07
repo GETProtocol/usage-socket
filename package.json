@@ -1,0 +1,48 @@
+{
+  "name": "usage-socket",
+  "version": "0.1.0",
+  "main": "src/index.js",
+  "types": "index.d.ts",
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "generate-types": "typechain --target=ethers-v5 ./abis/**/*.json",
+    "start": "node --loader ts-node/esm --experimental-specifier-resolution=node src/index.ts",
+    "check": "tsc --noEmit && eslint . && prettier --check --ignore-path .gitignore .",
+    "lint": "eslint .",
+    "format": "prettier --write --ignore-path .gitignore .",
+    "prepare": "husky install",
+    "postinstall": "yarn generate-types"
+  },
+  "dependencies": {
+    "@typechain/ethers-v5": "^7.1.2",
+    "@types/node": "^16.10.2",
+    "@types/ws": "^8.2.0",
+    "ethers": "^5.4.7",
+    "ts-node": "^10.2.1",
+    "typechain": "^5.1.2",
+    "winston": "^3.3.3",
+    "ws": "^8.2.3"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^13.2.0",
+    "@commitlint/config-conventional": "^13.2.0",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
+    "@typescript-eslint/parser": "^4.33.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.3.0",
+    "husky": ">=6",
+    "lint-staged": ">=10",
+    "prettier": "^2.4.1",
+    "typescript": "^4.4.3"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "eslint --cache --fix",
+      "prettier --write"
+    ],
+    "*.{cjs,json,md}": [
+      "prettier --write"
+    ]
+  }
+}
