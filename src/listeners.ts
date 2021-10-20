@@ -1,7 +1,7 @@
-import { ethers } from "ethers";
+import { ethers, utils } from "ethers";
 import logger from "./logger";
 import { IBroadcast } from "./socket";
-import { EventMetadata, NFT } from "../types/ethers-contracts";
+import { BaseGET, EventMetadataStorage } from "../types/ethers-contracts";
 import { UsageEvent } from "..";
 
 type IBaseEvent = ethers.Event & {
@@ -35,20 +35,26 @@ const getCommon = async (e: IBaseEvent) => {
     day: timestamp / 86400,
     relayerId: e.address,
     orderTime: e.args.orderTime.toString(),
-    getUsed: e.args.getUsed.toString(),
   };
 };
 
+const getFuelUsage = (e: IBaseEvent, type: UsageEvent["type"]) => ({
+  getDebitedFromSilo: ["MINT"].includes(type) ? utils.formatEther(e.args.getUsed.toString()) : "0",
+  getCreditedToDepot: ["INVALIDATE", "SCAN", "CHECK_IN"].includes(type)
+    ? utils.formatEther(e.args.getUsed.toString())
+    : "0",
+});
+
 export function startListeners(
-  nftContract: NFT,
-  eventMetadataContract: EventMetadata,
+  nftContract: BaseGET,
+  eventMetadataContract: EventMetadataStorage,
   broadcast: IBroadcast
 ): void {
   async function getEventByNftIndex(e: INftEvent): Promise<IGetEvent> {
     const nftData = await nftContract.returnStructTicket(e.args.nftIndex);
-    const event = await eventMetadataContract.getEventData(nftData.event_address);
+    const event = await eventMetadataContract.getEventData(nftData.eventAddress);
     return {
-      eventId: nftData.event_address,
+      eventId: nftData.eventAddress,
       latitude: ethers.utils.parseBytes32String(event[5][0]),
       longitude: ethers.utils.parseBytes32String(event[5][1]),
       nftIndex: e.args.nftIndex.toString(),
@@ -73,13 +79,16 @@ export function startListeners(
     return function (...args: Array<never | T>) {
       const e = args[args.length - 1];
       logger.info("RUNNING_HANDLER", { type, txHash: e.transactionHash });
-      void Promise.all([getCommon(e), getEvent(e)]).then(([common, event]) => {
-        broadcast({
-          ...common,
-          ...event,
-          type,
-        });
-      });
+      void Promise.all([getCommon(e), getEvent(e), getFuelUsage(e, type)]).then(
+        ([common, event, fuelUsage]) => {
+          broadcast({
+            ...common,
+            ...event,
+            ...fuelUsage,
+            type,
+          });
+        }
+      );
     };
   }
 
@@ -89,9 +98,9 @@ export function startListeners(
   const nftClaimed = abstractHandler<INftEvent>("CLAIM", getEventByNftIndex);
   const newEventRegistered = abstractHandler<IEventMetadataEvent>("NEW_EVENT", getEventByAddress);
 
-  nftContract.on("primarySaleMint", primarySaleMint);
-  nftContract.on("ticketInvalidated", ticketInvalidated);
-  nftContract.on("ticketScanned", ticketScanned);
-  nftContract.on("nftClaimed", nftClaimed);
-  eventMetadataContract.on("newEventRegistered", newEventRegistered);
+  nftContract.on("PrimarySaleMint", primarySaleMint);
+  nftContract.on("TicketInvalidated", ticketInvalidated);
+  nftContract.on("TicketScanned", ticketScanned);
+  nftContract.on("NftClaimed", nftClaimed);
+  eventMetadataContract.on("NewEventRegistered", newEventRegistered);
 }

@@ -5,7 +5,7 @@
       {
         "indexed": true,
         "internalType": "address",
-        "name": "NewAccesscontrol",
+        "name": "newAccesscontrol",
         "type": "address"
       }
     ],
@@ -27,21 +27,8 @@
   },
   {
     "anonymous": false,
-    "inputs": [
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "eventAddress",
-        "type": "address"
-      },
-      {
-        "indexed": true,
-        "internalType": "address",
-        "name": "underWriterAddress",
-        "type": "address"
-      }
-    ],
-    "name": "UnderWriterSet",
+    "inputs": [],
+    "name": "ContractSyncCompleted",
     "type": "event"
   },
   {
@@ -72,28 +59,50 @@
         "type": "uint256"
       }
     ],
-    "name": "newEventRegistered",
+    "name": "NewEventRegistered",
     "type": "event"
   },
   {
+    "anonymous": false,
     "inputs": [
       {
+        "indexed": true,
         "internalType": "address",
-        "name": "address_bouncer",
+        "name": "eventAddress",
         "type": "address"
       },
       {
+        "indexed": true,
         "internalType": "address",
-        "name": "address_economics",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "address_fueldepot",
+        "name": "underWriterAddress",
         "type": "address"
       }
     ],
-    "name": "_initialize_metadata",
+    "name": "UnderWriterSet",
+    "type": "event"
+  },
+  {
+    "inputs": [],
+    "name": "CONFIGURATION",
+    "outputs": [
+      {
+        "internalType": "contract IGETProtocolConfiguration",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_configurationAddress",
+        "type": "address"
+      }
+    ],
+    "name": "__FoundationContract_init",
     "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
@@ -102,39 +111,13 @@
     "inputs": [
       {
         "internalType": "address",
-        "name": "base_address",
+        "name": "configuration_address",
         "type": "address"
       }
     ],
-    "name": "configureBase",
+    "name": "__initialize_metadata",
     "outputs": [],
     "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "contractName",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [],
-    "name": "contractVersion",
-    "outputs": [
-      {
-        "internalType": "string",
-        "name": "",
-        "type": "string"
-      }
-    ],
-    "stateMutability": "view",
     "type": "function"
   },
   {
@@ -181,146 +164,108 @@
     "outputs": [
       {
         "internalType": "address",
-        "name": "_integrator_address",
+        "name": "_relayerAddress",
         "type": "address"
       },
       {
         "internalType": "address",
-        "name": "_underwriter_address",
+        "name": "_underWriterAddress",
         "type": "address"
       },
       {
         "internalType": "string",
-        "name": "_event_name",
+        "name": "_eventName",
         "type": "string"
       },
       {
         "internalType": "string",
-        "name": "_shop_url",
+        "name": "_shopUrl",
         "type": "string"
       },
       {
         "internalType": "string",
-        "name": "_image_url",
-        "type": "string"
-      },
-      {
-        "internalType": "bytes32[4]",
-        "name": "_event_meta",
-        "type": "bytes32[4]"
-      },
-      {
-        "internalType": "uint256[2]",
-        "name": "_event_times",
-        "type": "uint256[2]"
-      },
-      {
-        "internalType": "bool",
-        "name": "_set_aside",
-        "type": "bool"
-      },
-      {
-        "internalType": "bytes32[]",
-        "name": "_extra_data",
-        "type": "bytes32[]"
-      },
-      {
-        "internalType": "bool",
-        "name": "_private_event",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "eventAddress",
-        "type": "address"
-      }
-    ],
-    "name": "getUnderwriterAddress",
-    "outputs": [
-      {
-        "internalType": "address",
-        "name": "",
-        "type": "address"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "eventAddress",
-        "type": "address"
-      }
-    ],
-    "name": "isInventoryUnderwritten",
-    "outputs": [
-      {
-        "internalType": "bool",
-        "name": "",
-        "type": "bool"
-      }
-    ],
-    "stateMutability": "view",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "eventAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "integratorAccountPublicKeyHash",
-        "type": "address"
-      },
-      {
-        "internalType": "string",
-        "name": "eventName",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "shopUrl",
-        "type": "string"
-      },
-      {
-        "internalType": "string",
-        "name": "imageUrl",
+        "name": "_imageUrl",
         "type": "string"
       },
       {
         "internalType": "bytes32[4]",
-        "name": "eventMeta",
+        "name": "_eventMeta",
         "type": "bytes32[4]"
       },
       {
         "internalType": "uint256[2]",
-        "name": "eventTimes",
+        "name": "_eventTimes",
         "type": "uint256[2]"
       },
       {
         "internalType": "bool",
-        "name": "setAside",
+        "name": "_setAside",
         "type": "bool"
       },
       {
         "internalType": "bytes32[]",
-        "name": "extraData",
+        "name": "_extraData",
         "type": "bytes32[]"
       },
       {
         "internalType": "bool",
-        "name": "isPrivate",
+        "name": "_privateEvent",
+        "type": "bool"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "_eventAddress",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "_integratorAccountPublicKeyHash",
+        "type": "address"
+      },
+      {
+        "internalType": "string",
+        "name": "_eventName",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_shopUrl",
+        "type": "string"
+      },
+      {
+        "internalType": "string",
+        "name": "_imageUrl",
+        "type": "string"
+      },
+      {
+        "internalType": "bytes32[4]",
+        "name": "_eventMeta",
+        "type": "bytes32[4]"
+      },
+      {
+        "internalType": "uint256[2]",
+        "name": "_eventTimes",
+        "type": "uint256[2]"
+      },
+      {
+        "internalType": "bool",
+        "name": "_setAside",
+        "type": "bool"
+      },
+      {
+        "internalType": "bytes32[]",
+        "name": "_extraData",
+        "type": "bytes32[]"
+      },
+      {
+        "internalType": "bool",
+        "name": "_isPrivate",
         "type": "bool"
       }
     ],
@@ -343,57 +288,57 @@
         "components": [
           {
             "internalType": "address",
-            "name": "event_address",
+            "name": "eventAddress",
             "type": "address"
           },
           {
             "internalType": "address",
-            "name": "integrator_address",
+            "name": "relayerAddress",
             "type": "address"
           },
           {
             "internalType": "address",
-            "name": "underwriter_address",
+            "name": "underWriterAddress",
             "type": "address"
           },
           {
             "internalType": "string",
-            "name": "event_name",
+            "name": "eventName",
             "type": "string"
           },
           {
             "internalType": "string",
-            "name": "shop_url",
+            "name": "shopUrl",
             "type": "string"
           },
           {
             "internalType": "string",
-            "name": "image_url",
+            "name": "imageUrl",
             "type": "string"
           },
           {
             "internalType": "bytes32[4]",
-            "name": "event_metadata",
+            "name": "eventMetadata",
             "type": "bytes32[4]"
           },
           {
             "internalType": "uint256[2]",
-            "name": "event_times",
+            "name": "eventTimes",
             "type": "uint256[2]"
           },
           {
             "internalType": "bool",
-            "name": "set_aside",
+            "name": "setAside",
             "type": "bool"
           },
           {
             "internalType": "bytes32[]",
-            "name": "extra_data",
+            "name": "extraData",
             "type": "bytes32[]"
           },
           {
             "internalType": "bool",
-            "name": "private_event",
+            "name": "privateEvent",
             "type": "bool"
           },
           {
@@ -402,7 +347,7 @@
             "type": "bool"
           }
         ],
-        "internalType": "struct eventMetadataStorage.EventStruct",
+        "internalType": "struct EventMetadataStorage.EventStruct",
         "name": "",
         "type": "tuple"
       }
@@ -411,33 +356,15 @@
     "type": "function"
   },
   {
-    "inputs": [
+    "inputs": [],
+    "name": "syncConfiguration",
+    "outputs": [
       {
-        "internalType": "address",
-        "name": "newAddressBouncer",
-        "type": "address"
+        "internalType": "bool",
+        "name": "",
+        "type": "bool"
       }
     ],
-    "name": "setAccessControl",
-    "outputs": [],
-    "stateMutability": "nonpayable",
-    "type": "function"
-  },
-  {
-    "inputs": [
-      {
-        "internalType": "address",
-        "name": "eventAddress",
-        "type": "address"
-      },
-      {
-        "internalType": "address",
-        "name": "wrappingContract",
-        "type": "address"
-      }
-    ],
-    "name": "setUnderwriterAddress",
-    "outputs": [],
     "stateMutability": "nonpayable",
     "type": "function"
   }
