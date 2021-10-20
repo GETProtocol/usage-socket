@@ -94,12 +94,14 @@ export function startListeners(
 
   const primarySaleMint = abstractHandler<INftEvent>("MINT", getEventByNftIndex);
   const ticketInvalidated = abstractHandler<INftEvent>("INVALIDATE", getEventByNftIndex);
+  const secondarySale = abstractHandler<INftEvent>("RESALE", getEventByNftIndex);
   const ticketScanned = abstractHandler<INftEvent>("SCAN", getEventByNftIndex);
   const nftClaimed = abstractHandler<INftEvent>("CLAIM", getEventByNftIndex);
   const newEventRegistered = abstractHandler<IEventMetadataEvent>("NEW_EVENT", getEventByAddress);
 
   nftContract.on("PrimarySaleMint", primarySaleMint);
   nftContract.on("TicketInvalidated", ticketInvalidated);
+  nftContract.on("SecondarySale", secondarySale);
   nftContract.on("TicketScanned", ticketScanned);
   nftContract.on("NftClaimed", nftClaimed);
   eventMetadataContract.on("NewEventRegistered", newEventRegistered);
