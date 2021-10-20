@@ -10,7 +10,7 @@ export interface UsageEvent {
   nftIndex: string;
   getDebitedFromSilo: string;
   getCreditedToDepot: string;
-  type: "NEW_EVENT" | "MINT" | "INVALIDATE" | "SCAN" | "CHECK_IN" | "CLAIM";
+  type: "NEW_EVENT" | "MINT" | "INVALIDATE" | "RESALE" | "SCAN" | "CHECK_IN" | "CLAIM";
   latitude: string;
   longitude: string;
 }

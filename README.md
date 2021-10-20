@@ -6,10 +6,11 @@ The GET Protocol Usage Socket (affectionately known as the FOMO Socket) is used 
 
 The following contract events and usage types are handled:
 
-- _primarySaleMint => { type: "MINT" }_
-- _ticketInvalidated => { type: "INVALIDATE" }_
-- _ticketScanned => { type: "SCAN" }_
-- _nftClaimed => { type: "CLAIM" }_
+- _PrimarySaleMint => { type: "MINT" }_
+- _TicketInvalidated => { type: "INVALIDATE" }_
+- _SecondarySale => { type: "RESALE" }_
+- _TicketScanned => { type: "SCAN" }_
+- _NftClaimed => { type: "CLAIM" }_
 - _newEventRegistered => { type: "NEW_EVENT" }_
 
 ## Relation to Subgraph `UsageEvent`
@@ -25,7 +26,7 @@ Otherwise the keys and values should be identical. See [index.d.ts](./index.d.ts
 
 You will first need a [Polygon WebSocket RPC endpoint](https://docs.matic.network/docs/develop/network-details/network/) to listen to blockhain events. [Infura](https://infura.io/) or [Moralis (Speedy Nodes)](https://moralis.io/) provide enough capacity on their free-tiers.
 
-_Note; the application does not handle loading environment variables onto your environment. You can try to use [dotenv-cli](https://www.npmjs.com/package/dotenv-cli) or to do this [directly within your shell](https://stackoverflow.com/a/20909045)._
+_Note; the application does not handle loading environment variables onto your environment. You can try to use [dotenv-cli](https://www.npmjs.com/package/dotenv-cli) or do this [directly within your shell](https://stackoverflow.com/a/20909045)._
 
 1. `cp .env.example .env`
 2. `yarn install`
